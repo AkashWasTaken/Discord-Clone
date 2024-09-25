@@ -1,41 +1,74 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [activeServer, setActiveServer] = useState(null);
+  const servers = ["A", "B", "C"];
+
   return (
-    <>
-      {/* Main container for the sidebar */}
-      <div className="bg-[#1E1F22] h-screen w-[72px] flex flex-col items-center py-4 space-y-4">
-        {/* Discord logo */}
-        <a
-          href="#"
-          className="hover:bg-[#5865F2] p-3 rounded-2xl transition-all duration-300 ease-in-out group"
-        >
-          <FontAwesomeIcon
-            icon={faDiscord}
-            size="2x"
-            className="text-white group-hover:rotate-12 transition-transform"
-          />
-        </a>
+    <nav className="bg-[#1E1F22] h-screen w-[72px] flex flex-col items-center py-4 space-y-2">
+      <a
+        href="#"
+        className="hover:bg-[#5865F2] p-3 rounded-2xl transition-all duration-200 ease-in-out group"
+      >
+        {" "}
+        <FontAwesomeIcon
+          icon={faDiscord}
+          size="2x"
+          className="text-[#5865F2] group-hover:text-white group-hover:rotate-[360deg] transition-all duration-500"
+        />
+      </a>
+      <div className="w-8 border-t border-gray-700 my-2"></div>
 
-        {/* Divider with some margin for better spacing */}
-        <div className="w-8 border-t border-gray-600 my-2"></div>
+      {servers.map((server, index) => (
+        <ServerIcon
+          key={index}
+          server={server}
+          isActive={activeServer === index}
+          onClick={() => setActiveServer(index)}
+        />
+      ))}
 
-        {/* Server icons */}
-        {["A", "B", "C"].map((server, index) => (
-          <a
-            key={index}
-            href="#"
-            className="bg-[#36393F] hover:bg-[#5865F2] w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ease-in-out group relative"
-          >
-            
-            <span className="text-white font-bold text-xl">{server}</span>
-            <span className="absolute left-16 bg-[#40444B] text-white text-sm font-semibold px-2 py-1 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 transform translate-x-1 transition-transform duration-200">
-              Server {server}
-            </span>
-          </a>
-        ))}
-      </div>
-    </>
+      <a
+        href="#"
+        className="bg-[#36393F] hover:bg-[#3BA55D] w-12 h-12 rounded-[24px] flex items-center justify-center transition-all duration-200 ease-in-out group mt-2 hover:rounded-[16px]"
+      >
+        <FontAwesomeIcon
+          icon={faPlus}
+          className="text-[#3BA55D] group-hover:text-white transition-colors"
+        />
+      </a>
+    </nav>
+  );
+}
+
+function ServerIcon({ server, isActive, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`relative group w-12 h-12 rounded-[24px] flex items-center justify-center transition-all duration-200 ease-in-out
+        ${isActive ? "bg-[#5865F2]" : "bg-[#36393F]"}
+        hover:bg-[#5865F2] hover:rounded-[16px]`}
+    >
+      <span className="text-white font-bold text-xl">{server}</span>
+
+      <span
+        className={`absolute left-0 w-1 bg-white rounded-r-full transition-all duration-200
+        ${
+          isActive
+            ? "h-10 -translate-y-1/2 top-1/2"
+            : "h-0 opacity-0 group-hover:opacity-100 group-hover:h-5 top-1/2 -translate-y-1/2"
+        }`}
+      ></span>
+
+      <span
+        className="absolute left-16 bg-black text-white text-sm font-medium px-2 py-1 rounded shadow-lg 
+        opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10 pointer-events-none"
+      >
+        Server {server}
+      </span>
+    </button>
   );
 }
