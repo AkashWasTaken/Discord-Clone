@@ -1,10 +1,19 @@
-import React from 'react'
-import Navbar from './components/Navbar'
-const App = () => {
-  return (
-    <Navbar />
-    
-  )
-}
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
+import DirectMessageSidebar from "./components/DirectMessageSidebar";
 
-export default App
+const App = () => {
+  const [activeSection, setActiveSection] = useState("dm");
+
+  return (
+    <div className="flex">
+      <Navbar
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+      />
+      {activeSection === "dm" && <DirectMessageSidebar />}
+    </div>
+  );
+};
+
+export default App;
